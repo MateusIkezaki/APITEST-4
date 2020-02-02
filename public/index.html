@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.1/lib/p5.js"></script>
+    <!-- Import p5 library -->
+    <title>Document</title>
+</head>
+<body>
+    sup!!
+    <a href="stalker.html"> click meh :)) </a>
+    <script>
+       
+        function setup(){
+            //NOTE: p5 always looks for this specific function
+            
+                noCanvas()
+                //disabling default drawn canvas
+                const video = createCapture(VIDEO)
+                //creating a video window
+                video.size(320, 240)
+                //resizing video window's size
+
+                if('geolocation' in navigator)
+                {
+                    console.log('working')
+                    navigator.geolocation.getCurrentPosition(async position => {
+
+                    const button = document.getElementById("botao")
+
+                    button.addEventListener('click', async event => {
+
+                        video.loadPixels()
+                        //load pixels which will be converted to Base64
+                        const image = video.canvas.toDataURL()
+                        //encoding image to Base64(string format)
+                        const lat = position.coords.latitude
+                        const lon = position.coords.longitude
+                        const nam = document.getElementById("userinput").value
+                        const data = {lat, lon, nam, image}
+                        
+                        document.getElementById("latitude").textContent = lat
+                        document.getElementById("longitude").textContent = lon
+
+                        const options = {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                                //specifying to the api what type of content it is
+                            },
+                            body: JSON.stringify(data)
+                            //parsing data from data
+                        }
+                        const response = await fetch('/api', options)
+                        //accessing link(in this case the api named api), with POST method, sending the body variable
+                        const result = await response.json();
+                        //await for response.json() from app.js file
+                        console.log(result)
+                        //print result
+                    })
+                        
+                    
+                    })
+                    
+                }
+                else
+                {
+                    console.log('done fucked up')
+                }
+
+        }
+
+       
+    </script>
+
+    <p>
+        latitude: <span id="latitude"></span><br>
+        longitude: <span id ="longitude"></span>
+    </p>
+
+    <div class="display"></div>
+    <input type="text" name="name" value="yo name fam" id = "userinput">
+    <button id = "botao">Click meh</button>
+
+    
+</body>
+</html>

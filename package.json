@@ -1,0 +1,23 @@
+{
+  "name": "module2",
+  "version": "1.0.0",
+  "description": "api learning app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "example",
+    "data",
+    "learning"
+  ],
+  "author": "MrDingo",
+  "license": "MIT",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "express": "^4.17.1",
+    "nedb": "^1.8.0",
+    "serve-static": "^1.14.1"
+  },
+  "devDependencies": {}
+}

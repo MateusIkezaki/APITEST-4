@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stalker</title>
+</head>
+<body>
+    <script>
+        async function getData()
+        {
+            const response = await fetch('/api')
+            const answer = await response.json()
+            console.log(answer)
+            const chosenname = answer[answer.length - 1]
+            const message = `hi, ${chosenname.nam}, your latitude is ${JSON.stringify(chosenname.lat)} and your
+            longitude is ${JSON.stringify(chosenname.lon)}. Remember: for every second you're not running, I'm only getting closer :)`
+
+            document.querySelector('.message').innerHTML = message
+
+             for(item of answer){
+                 //this loop is repeated for every element of the answer array
+
+                 const root = document.createElement('div')
+                 const name = document.createElement('div')
+                 const location = document.createElement('div')
+                 const time = document.createElement('div')
+                 const space = document.createElement('br')
+                 const photo = document.createElement('img')
+                 //creating a div for the root, name, location and time
+
+                 name.textContent = `Name: ${item.nam}`
+                 //inserting name of database in the '.name' div
+                 location.textContent = `Location(latitude,longitude): ${item.lat}, ${item.lon}`
+                 //inserting latitude and longitude of database in the '.location' div
+                 const readableTime = new Date(item.timestamp).toLocaleDateString()
+                 //converting the timestamp in the database to a readable string
+                 time.textContent = `Posted at: ${readableTime}`
+                 //inserting readable string in the '.time' div
+                 photo.src = item.image
+
+                 root.append(name, location, time, photo, space)
+                 //inserting all divs created into the root div
+                 document.body.append(root)
+                 //inserting the root div into the page's body
+            }
+        }   
+        getData() 
+    </script>
+    <div class="message"></div>
+    <a href="index.html"> SHIT GO BACK </a>
+</body>
+</html>
